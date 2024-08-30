@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 use ieee.math_real.all;
 use work.mux_p.all;
 
-entity DataPath is port (
+entity datapath is port (
 	data_in: in std_logic_vector(7 downto 0);
 	data_out: out std_logic_vector(7 downto 0);
 	pc: in std_logic_vector(13 downto 0);
@@ -13,10 +13,10 @@ entity DataPath is port (
 );
 end entity;
 
-architecture a of DataPath is
+architecture a of datapath is
 
 signal a, b: std_logic_vector(7 downto 0);
-signal reg_load, reg_data, alu_out, feedback: std_logic_vector(7 downto 0);
+signal reg_load, reg_data, alu_out, shifter_out, feedback_comp, feedback: std_logic_vector(7 downto 0);
 signal reg_vals: slv_array_t(7 downto 0);
 
 begin
@@ -59,8 +59,19 @@ begin
 			opsel => pc(10 downto 9),
 			zero => z, negative => n, co => c, overflow => v
 		);
+		
+	shifter: work.shifter port map(
+		a => b,
+		s => shifter_out,
+		opsel => pc(11)
+	);
+	mux_alu_shifter: work.mux port map(
+		I => shifter_out & alu_out,
+		S => unsigned(pc(12 downto 12)),
+		O => feedback_comp
+	);
 	mux_feedback: work.mux port map(
-		I => data_in & alu_out,
+		I => data_in & feedback_comp,
 		S => unsigned(pc(13 downto 13)),
 		O => feedback
 	);

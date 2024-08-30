@@ -12,11 +12,12 @@ S3 = Acc <- Acc + X   55
 S4 = Temp <- Final - X
 S5 = IF(Z) -> S6
      ELSE() -> S2
+S6 = WRITE(Acc)
 
-S1 = 'xxx11100000010'
-S2 = 'xxx00001000000'
-S3 = 'xxx00000010010'
-S4 = 'xxx01000011101'
+S1 = 'xxx 11 100 000 010'
+S2 = 'xxx 00 001 000 000'
+S3 = 'xxx 00 000 010 010'
+S4 = 'xxx 01 000 011 101'
 
 2 to 0  -> Decodificador
 5 to 3  -> Mux1
@@ -25,3 +26,7 @@ S4 = 'xxx01000011101'
 11      -> Deslocador
 12      -> Mux (ULA & Deslocador)
 13      -> Mux (Mux Ant & DataIn)
+
+X = 25 Temp = 35 - X = 10
+X = 30 Temp = 35 - X = 5
+X = 35 Temp = 35 - X = 0
