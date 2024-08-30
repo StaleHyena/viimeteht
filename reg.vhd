@@ -14,12 +14,12 @@ architecture syn of reg is
 component FFD is
 Port( d, clock, spre, sclear: in std_logic;
 		q, qnot: out std_logic);
-END FFD;
+END Component;
 signal pre_z: std_logic_vector(NUM-1 downto 0);
 begin
 FFDs_gen: for i in NUM-1 downto 0 generate
-	FFD: FFD port map(
-		d => load and d(i) or not load and pre_z(i),
+	FFD_i: FFD port map(
+		d => load_s,
 		clock => clk,
 		spre => '0',
 		sclear => '0',

@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-library IEEE;
-=======
 library IEEE;
 use IEEE.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -18,12 +15,10 @@ end entity;
 
 architecture a of DataPath is
 
-signal a: std_logic_vector(7 downto 0);
-signal b: std_logic_vector(7 downto 0);
-signal reg_load: std_logic_vector(7 downto 0);
-signal reg_data: std_logic_vector(7 downto 0);
-signal reg_vals: slv_array_t(7 downto 0)(7 downto 0);
-signal feedback: std_logic_vector(7 downto 0);
+signal a, b: std_logic_vector(7 downto 0);
+signal reg_load, reg_data, alu_out, feedback: std_logic_vector(7 downto 0);
+signal reg_vals: slv_array_t(7 downto 0);
+
 begin
 	reg_gen: for i in 7 downto 0 generate
 		mem_reg: work.reg generic map(NUM => 8)
@@ -36,20 +31,21 @@ begin
 	end generate;
 	reg_load_demux: work.demux
 		port map (
-			sel_i => to_integer(unsigned(pc(2 downto 0))),
-			z_o => reg_load
+			I => "1",
+			S => unsigned(pc(2 downto 0)),
+			O => reg_load
 		);
 	mux_a: work.mux
 		port map (
-			v_i => reg_vals,
-			sel_i => to_integer(unsigned(pc(5 downto 3))),
-			z_o => a
+			I => reg_vals(7) & reg_vals(6) & reg_vals(5) & reg_vals(4) & reg_vals(3) & reg_vals(2) & reg_vals(1) & reg_vals(0),
+			S => unsigned(pc(5 downto 3)),
+			O => a
 		);
 	mux_b: work.mux
 		port map (
-			v_i => reg_vals,
-			sel_i => to_integer(unsigned(pc(8 downto 6))),
-			z_o => b
+			I => reg_vals(7) & reg_vals(6) & reg_vals(5) & reg_vals(4) & reg_vals(3) & reg_vals(2) & reg_vals(1) & reg_vals(0),
+			S => unsigned(pc(8 downto 6)),
+			O => b
 		);
 	
 	data_out <= b;
@@ -59,12 +55,14 @@ begin
 		port map (
 			a => a,
 			b => b,
-			s => feedback,
+			s => alu_out,
 			opsel => pc(10 downto 9),
 			zero => z, negative => n, co => c, overflow => v
 		);
-	
-	mux_feedback: work.mux 
+	mux_feedback: work.mux port map(
+		I => data_in & alu_out,
+		S => unsigned(pc(13 downto 13)),
+		O => feedback
+	);
 
 end architecture;
->>>>>>> e340084 (ch-ch-changes)
