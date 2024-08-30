@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
 
-entity mux is
+entity mymux is
   generic(
     NUM : natural := 2);  -- Number of inputs
   port(
@@ -14,7 +14,7 @@ entity mux is
     O   : out std_logic_vector(7 downto 0));
 end entity;
 
-architecture syn of mux is
+architecture syn of mymux is
 begin
   O <= I((S+1)*8-1 downto S*8);
 end architecture;
@@ -24,18 +24,18 @@ end architecture;
 --use ieee.std_logic_1164.all;
 --use ieee.numeric_std.all;
 
--- mux based upon
+-- mymux based upon
 -- https://community.element14.com/technologies/fpga-group/b/blog/posts/the-art-of-fpga-design---post-14
 
---entity mux is
+--entity mymux is
 --  port (
 --    I : in std_logic_vector;
 --    S : in unsigned;
 --    O : out std_logic_vector
 --  );
---end mux;
+--end mymux;
 --
---architecture behav of mux is
+--architecture behav of mymux is
 --  constant WIDTH: integer := O'length;
 --  constant N: integer := 2**S'length; -- number of inputs, ceil'd to the closest 2**x
 --  signal II: std_logic_vector(N*WIDTH-1 + I'low downto I'low); -- I might not be 0 based
@@ -58,7 +58,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
 
-entity demux is
+entity demymux is
 	generic(NUM : natural);
 	port(
 		S: in natural range integer(ceil(log2(real(NUM)))) - 1 downto 0;
@@ -66,7 +66,7 @@ entity demux is
 		O: out std_logic_vector(NUM - 1 downto 0));
 end entity;
 
-architecture syn of demux is
+architecture syn of demymux is
 signal z_uns: unsigned(NUM - 1 downto 0);
 begin
 	z_uns <= shift_left(resize("1", NUM),S);
@@ -79,18 +79,18 @@ end architecture;
 --use ieee.std_logic_1164.all;
 --use ieee.numeric_std.all;
 
--- demux based upon
+-- demymux based upon
 -- https://community.element14.com/technologies/fpga-group/b/blog/posts/the-art-of-fpga-design---post-14
 
---entity demux is
+--entity demymux is
 --  port (
 --    I : in std_logic_vector;
 --    S : in unsigned;
 --    O : out std_logic_vector
 --  );
---end demux;
+--end demymux;
 --
---architecture behav of demux is
+--architecture behav of demymux is
 --  constant WIDTH: integer := I'length;
 --  constant N: integer := 2**S'length; -- number of inputs, ceil'd to the closest 2**x
 --begin

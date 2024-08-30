@@ -26,7 +26,7 @@ port (a :  in std_logic_vector(data_width-1 downto 0);
 		opsel: in std_logic;
 		ov :  out std_logic);
 end component;
-component mux is generic (NUM : natural);
+component mymux is generic (NUM : natural);
   port (
     I : in std_logic_vector;
     S : in unsigned;
@@ -46,19 +46,19 @@ signal
 	logic_and_out,
 	logic_xor_out: std_logic_vector(data_width-1 downto 0);
 
-signal mux_sel: unsigned(1 downto 0);
+signal mymux_sel: unsigned(1 downto 0);
 
   begin
 	with opsel select
-  mux_sel <=
+  mymux_sel <=
 		"00" when "00", -- add
 		"00" when "01", -- sub
 		"01" when "10",	-- and
 		"10" when "11"; -- xor
 
-	OUTMUX: mux generic map (NUM => 3) port map(
+	OUTmymux: mymux generic map (NUM => 3) port map(
 		I => logic_xor_out & logic_and_out & addsub_out,
-		S => mux_sel,
+		S => mymux_sel,
 		O => s
 	);
 	ADDSUB_INST: addsub port map(

@@ -30,18 +30,18 @@ begin
 				clk => clock
 			);
 	end generate;
-	reg_load_demux: work.demux generic map(NUM => 8)
+	reg_load_demymux: work.demymux generic map(NUM => 8)
 		port map (
 			S => to_integer(unsigned(pc(2 downto 0))),
 			O => reg_load
 		);
-	mux_a: work.mux generic map(NUM => 8)
+	mymux_a: work.mymux generic map(NUM => 8)
 		port map (
 			I => reg_vals,
 			S => to_integer(unsigned(pc(5 downto 3))),
 			O => a
 		);
-	mux_b: work.mux generic map(NUM => 8)
+	mymux_b: work.mymux generic map(NUM => 8)
 		port map (
 			I => reg_vals,
 			S => to_integer(unsigned(pc(8 downto 6))),
@@ -65,13 +65,13 @@ begin
 		s => shifter_out,
 		opsel => pc(11)
 	);
-	mux_alu_shifter: work.mux generic map(NUM => 2)
+	mymux_alu_shifter: work.mymux generic map(NUM => 2)
 	port map(
 		I => shifter_out & alu_out,
 		S => to_integer(unsigned(pc(12 downto 12))),
 		O => feedback_comp
 	);
-	mux_feedback: work.mux generic map(NUM => 2)
+	mymux_feedback: work.mymux generic map(NUM => 2)
 	port map(
 		I => data_in & feedback_comp,
 		S => to_integer(unsigned(pc(13 downto 13))),
