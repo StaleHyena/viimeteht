@@ -1,5 +1,5 @@
-Reg0  Reg1 Reg2  Reg3 Reg4     Reg5 
- X    Plus Acc  Final grande0  Temp
+Reg0  Reg1 Reg2  Reg3 Reg4 Reg5 
+ X    Plus Acc  Final 0    Temp
 
 X <- 25
 Plus <- 5 

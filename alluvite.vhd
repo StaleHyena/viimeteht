@@ -6,7 +6,10 @@ entity alluvite is
 
 port (clk: in std_logic;
 	o: out std_logic_vector(7 downto 0);
-	leds: out std_logic_vector(7*8 - 1 downto 0)
+	leds: out std_logic_vector(7*8 - 1 downto 0)--;
+	--a,b,feedback,data_in: out std_logic_vector(7 downto 0);
+	--pc : out std_logic_vector(13 downto 0);
+	--state_num_o : out unsigned(3 downto 0)
 	);
 end entity;
 
@@ -21,9 +24,10 @@ signal state_num: unsigned(3 downto 0);
 begin
 	DP: work.datapath port map(
 		clock => clk,
-		data_in => data_in,
-		data_out => data_out,
+		dataIn => data_in,
+		dataOut => data_out,
 		pc => pc,
+		reset => '0',
 		n => negative, z => zero, v => overflow, c => carry
 	);
 	
@@ -59,4 +63,8 @@ begin
 		);
 	end generate;
 	
+	
+	--,data_in: out std_logic_vector(7 downto 0);
+	pc : out std_logic_vector(13 downto 0);
+	state_num_o : out unsigned(3 downto 0)
 end architecture;
