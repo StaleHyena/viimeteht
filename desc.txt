@@ -1,0 +1,27 @@
+Reg0  Reg1 Reg2  Reg3 Reg4     Reg5 
+ X    Plus Acc  Final grande0  Temp
+
+X <- 25
+Plus <- 5 
+Final <- 35
+grande0 <- 0
+S1 = Acc <- X
+
+S2 = X <- X + Plus 30
+S3 = Acc <- Acc + X   55
+S4 = Temp <- Final - X
+S5 = IF(Z) -> S6
+     ELSE() -> S2
+
+S1 = 'xxx11100000010'
+S2 = 'xxx00001000000'
+S3 = 'xxx00000010010'
+S4 = 'xxx01000011101'
+
+2 to 0  -> Decodificador
+5 to 3  -> Mux1
+8 to 6  -> Mux2
+10 to 9 -> ULA
+11      -> Deslocador
+12      -> Mux (ULA & Deslocador)
+13      -> Mux (Mux Ant & DataIn)
