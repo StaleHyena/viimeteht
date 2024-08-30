@@ -26,5 +26,6 @@ FFDs_gen: for i in NUM-1 downto 0 generate
 		q => pre_z(i),
 		qnot => open
 	);
+	z(i) <= pre_z(i);
 	end generate;
 end architecture;

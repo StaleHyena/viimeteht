@@ -1,7 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.mux_p.all;
 
 entity alu is
 generic (data_width: integer := 6);
@@ -27,7 +26,7 @@ port (a :  in std_logic_vector(data_width-1 downto 0);
 		opsel: in std_logic;
 		ov :  out std_logic);
 end component;
-component mux is
+component mux is generic (NUM : natural);
   port (
     I : in std_logic_vector;
     S : in unsigned;
@@ -54,10 +53,10 @@ signal mux_sel: unsigned(1 downto 0);
   mux_sel <=
 		"00" when "00", -- add
 		"00" when "01", -- sub
-		"10" when "10",	-- and
-		"11" when "11"; -- xor
+		"01" when "10",	-- and
+		"10" when "11"; -- xor
 
-	OUTMUX: mux port map(
+	OUTMUX: mux generic map (NUM => 3) port map(
 		I => logic_xor_out & logic_and_out & addsub_out,
 		S => mux_sel,
 		O => s
